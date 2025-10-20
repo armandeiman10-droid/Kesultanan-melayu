@@ -46,9 +46,11 @@
     }
 
     button:hover {
-      background-color: #ec407a;
       transform: scale(1.07);
     }
+
+    .correct { background-color: green !important; }
+    .wrong { background-color: red !important; }
 
     #result {
       font-size: 1.4em;
@@ -74,9 +76,6 @@
       background-color: #42a5f5;
       transform: scale(1.1);
     }
-
-    .correct { color: green; font-weight: bold; }
-    .wrong { color: red; font-weight: bold; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -143,28 +142,39 @@
         <div class="question">
           <h3>${q.question}</h3>
           ${q.answers.map((a, i) =>
-            `<button onclick="checkAnswer(${i})">${a}</button>`
+            `<button onclick="checkAnswer(this, ${i})">${a}</button>`
           ).join("")}
         </div>
         <p>Soalan ${current + 1} daripada ${quiz.length}</p>
       `;
     }
 
-    function checkAnswer(i) {
+    function checkAnswer(btn, i) {
+      const buttons = btn.parentElement.querySelectorAll("button");
       userAnswers.push(i);
+
       if (i === quiz[current].correct) {
         score++;
+        btn.classList.add("correct");
         document.getElementById("correctSound").play();
       } else {
+        btn.classList.add("wrong");
+        buttons[quiz[current].correct].classList.add("correct"); // tunjuk jawapan betul
         document.getElementById("wrongSound").play();
       }
 
-      current++;
-      if (current < quiz.length) {
-        showQuestion();
-      } else {
-        endQuiz();
-      }
+      // Disable semua button selepas klik
+      buttons.forEach(b => b.disabled = true);
+
+      // Tunggu 1.2s sebelum ke soalan seterusnya
+      setTimeout(() => {
+        current++;
+        if (current < quiz.length) {
+          showQuestion();
+        } else {
+          endQuiz();
+        }
+      }, 1200);
     }
 
     function endQuiz() {
