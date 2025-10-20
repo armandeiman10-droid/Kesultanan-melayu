@@ -1,204 +1,132 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ms">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Jejak Kesultanan Melayu</title>
-<style>
-  body {
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
-    margin: 0; padding: 0;
-  }
-  header {
-    background: #003366;
-    color: white;
-    padding: 20px;
-    font-size: 1.5rem;
-  }
-  .map {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 30px;
-    gap: 20px;
-  }
-  button.negeri {
-    background: white;
-    border: 3px solid #003366;
-    border-radius: 15px;
-    padding: 20px;
-    width: 180px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  button.negeri:hover {
-    background: #003366;
-    color: white;
-  }
-  .quiz-container {
-    display: none;
-    max-width: 500px;
-    margin: 30px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  }
-  .question {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-  }
-  .options button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #003366;
-    cursor: pointer;
-    background: #f0f8ff;
-  }
-  .options button:hover {
-    background: #003366;
-    color: white;
-  }
-  .score {
-    margin-top: 20px;
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
-  #result {
-    display: none;
-    margin: 40px auto;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kuiz Kesultanan Melayu</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(120deg, #e0f7fa, #80deea);
+      text-align: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #004d40;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .question {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin: 20px auto;
+      width: 90%;
+      max-width: 500px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #00796b;
+      color: white;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #004d40;
+      transform: scale(1.05);
+    }
+  </style>
 </head>
+
 <body>
-<header>🎮 Jejak Kesultanan Melayu 🎮</header>
+  <h1>Kuiz Interaktif: Kesultanan Melayu</h1>
+  <div id="quiz-container"></div>
+  <p id="result"></p>
 
-<div id="menu">
-  <h2>Pilih Kesultanan untuk diterokai:</h2>
-  <div class="map">
-    <button class="negeri" onclick="startQuiz('Pahang')">Pahang</button>
-    <button class="negeri" onclick="startQuiz('Perak')">Perak</button>
-    <button class="negeri" onclick="startQuiz('Terengganu')">Terengganu</button>
-    <button class="negeri" onclick="startQuiz('Selangor')">Selangor</button>
-  </div>
-</div>
+  <script>
+    const quiz = [
+      {
+        question: "1. Bilakah Kesultanan Melayu Pahang diasaskan?",
+        answers: ["1454", "1470", "1500", "1511"],
+        correct: 1
+      },
+      {
+        question: "2. Siapakah sultan pertama Kesultanan Melayu Perak?",
+        answers: ["Sultan Muzaffar Shah", "Sultan Mansur Shah", "Sultan Ahmad Shah", "Sultan Mahmud"],
+        correct: 0
+      },
+      {
+        question: "3. Apakah hasil utama negeri Terengganu pada zaman Kesultanan Melayu?",
+        answers: ["Timah", "Emas", "Petroleum", "Hasil laut"],
+        correct: 3
+      },
+      {
+        question: "4. Bilakah Kesultanan Melayu Selangor diasaskan?",
+        answers: ["1766", "1700", "1800", "1750"],
+        correct: 0
+      },
+      {
+        question: "5. Siapakah sultan pertama Selangor?",
+        answers: ["Sultan Salehuddin", "Sultan Alauddin", "Sultan Mahmud", "Sultan Ahmad"],
+        correct: 0
+      }
+    ];
 
-<div id="quiz" class="quiz-container">
-  <h3 id="quiz-title"></h3>
-  <div id="question" class="question"></div>
-  <div id="options" class="options"></div>
-  <div class="score" id="score"></div>
-</div>
+    let current = 0;
+    let score = 0;
 
-<div id="result"></div>
+    const quizContainer = document.getElementById("quiz-container");
+    const result = document.getElementById("result");
 
-<script>
-const quizzes = {
-  "Pahang": [
-    {q:"Siapakah pengasas Kesultanan Pahang?", a:"Sultan Muhammad Shah", o:["Sultan Ahmad","Sultan Muhammad Shah","Sultan Mahmud","Sultan Mansur"]},
-    {q:"Pahang pernah berada di bawah pemerintahan negeri mana sebelum menjadi kesultanan?", a:"Melaka", o:["Perak","Terengganu","Melaka","Johor"]},
-    {q:"Apakah hasil utama Pahang semasa zaman kesultanan?", a:"Emas", o:["Emas","Besi","Timah","Lada hitam"]},
-    {q:"Sultan pertama Pahang berasal daripada Kesultanan mana?", a:"Kesultanan Melaka", o:["Kesultanan Aceh","Kesultanan Melaka","Kesultanan Johor","Kesultanan Kedah"]},
-    {q:"Apakah lambang kekuasaan sultan di Pahang?", a:"Cogan Alam dan Cogan Agama", o:["Cogan Alam dan Cogan Agama","Pedang dan Keris","Mahkota","Tombak Diraja"]}
-  ],
-  "Perak": [
-    {q:"Siapakah pengasas Kesultanan Perak?", a:"Sultan Muzaffar Shah I", o:["Sultan Mansur Shah","Sultan Muzaffar Shah I","Sultan Mahmud Shah","Sultan Alauddin Shah"]},
-    {q:"Dari mana asal keturunan sultan pertama Perak?", a:"Kesultanan Melaka", o:["Kesultanan Pahang","Kesultanan Johor","Kesultanan Melaka","Kesultanan Kedah"]},
-    {q:"Apakah sumber ekonomi utama Perak pada abad ke-16?", a:"Bijih timah", o:["Emas","Bijih timah","Getah","Kapur"]},
-    {q:"Apakah nama sungai utama yang penting di Perak?", a:"Sungai Perak", o:["Sungai Dinding","Sungai Perak","Sungai Kinta","Sungai Bernam"]},
-    {q:"Apakah lambang kedaulatan Kesultanan Perak?", a:"Alat kebesaran diraja", o:["Bendera","Alat kebesaran diraja","Istana","Bunga emas"]}
-  ],
-  "Terengganu": [
-    {q:"Apakah nama sultan pertama Kesultanan Terengganu?", a:"Sultan Zainal Abidin I", o:["Sultan Mansur","Sultan Zainal Abidin I","Sultan Ahmad II","Sultan Mahmud"]},
-    {q:"Apakah hasil utama Terengganu semasa zaman kesultanan?", a:"Perdagangan laut", o:["Bijih timah","Perdagangan laut","Getah","Emas"]},
-    {q:"Negeri manakah yang pernah mempengaruhi Terengganu pada abad ke-18?", a:"Siam", o:["Aceh","Siam","Johor","Perak"]},
-    {q:"Apakah bukti awal tulisan Jawi di Terengganu?", a:"Batu Bersurat Terengganu", o:["Batu Bersurat Terengganu","Manuskrip Lama","Buku Hikayat","Catatan Portugis"]},
-    {q:"Apakah peranan utama Sultan Zainal Abidin I?", a:"Mengasaskan pemerintahan berdaulat di Terengganu", o:["Menjadi penaung Johor","Menakluk Kelantan","Mengasaskan pemerintahan berdaulat di Terengganu","Menandatangani perjanjian dengan Siam"]}
-  ],
-  "Selangor": [
-    {q:"Siapakah pengasas Kesultanan Selangor?", a:"Raja Lumu (Sultan Salehuddin Shah)", o:["Raja Lumu (Sultan Salehuddin Shah)","Sultan Ibrahim","Sultan Mahmud","Raja Abdullah"]},
-    {q:"Keturunan pengasas Kesultanan Selangor berasal dari mana?", a:"Bugis", o:["Bugis","Melayu Johor","Aceh","Minangkabau"]},
-    {q:"Apakah sumber ekonomi utama Selangor pada abad ke-18?", a:"Bijih timah", o:["Getah","Bijih timah","Lada hitam","Kapur"]},
-    {q:"Apakah pusat pemerintahan awal Kesultanan Selangor?", a:"Kuala Selangor", o:["Kuala Selangor","Klang","Sabak Bernam","Shah Alam"]},
-    {q:"Apakah hubungan awal Selangor dengan Johor?", a:"Selangor membantu Johor menentang Belanda", o:["Selangor dijajah Johor","Selangor membantu Johor menentang Belanda","Selangor menakluk Johor","Tiada hubungan"]}
-  ]
-};
+    function showQuestion() {
+      const q = quiz[current];
+      quizContainer.innerHTML = `
+        <div class="question">
+          <h3>${q.question}</h3>
+          ${q.answers.map((a, i) =>
+            `<button onclick="checkAnswer(${i})">${a}</button>`
+          ).join("")}
+        </div>
+      `;
+    }
 
-let currentQuiz = [];
-let currentIndex = 0;
-let score = 0;
-let total = 0;
-let currentState = '';
+    function checkAnswer(i) {
+      if (i === quiz[current].correct) {
+        score++;
+        document.getElementById("correctSound").play();
+      } else {
+        document.getElementById("wrongSound").play();
+      }
 
-function startQuiz(state){
-  currentState = state;
-  currentQuiz = quizzes[state];
-  currentIndex = 0;
-  score = 0;
-  total = currentQuiz.length;
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("quiz").style.display = "block";
-  document.getElementById("quiz-title").innerText = "Kuiz: Kesultanan " + state;
-  showQuestion();
-  // tempat main bunyi klik: new Audio('click.mp3').play();
-}
+      current++;
+      if (current < quiz.length) {
+        showQuestion();
+      } else {
+        endQuiz();
+      }
+    }
 
-function showQuestion(){
-  let q = currentQuiz[currentIndex];
-  document.getElementById("question").innerText = q.q;
-  let optionsHTML = '';
-  q.o.forEach(opt=>{
-    optionsHTML += `<button onclick="checkAnswer('${opt}')">${opt}</button>`;
-  });
-  document.getElementById("options").innerHTML = optionsHTML;
-  document.getElementById("score").innerText = `Markah: ${score}/${total}`;
-}
+    function endQuiz() {
+      quizContainer.innerHTML = "";
+      if (score === quiz.length) {
+        document.getElementById("cheerSound").play();
+      } else {
+        document.getElementById("clickSound").play();
+      }
+      result.innerHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2>`;
+    }
 
-function checkAnswer(answer){
-  let correct = currentQuiz[currentIndex].a;
-  if(answer===correct){
-    score++;
-    // bunyi betul: new Audio('correct.mp3').play();
-  } else {
-    // bunyi salah: new Audio('wrong.mp3').play();
-  }
-  currentIndex++;
-  if(currentIndex<total){
     showQuestion();
-  } else {
-    showResult();
-  }
-}
+  </script>
 
-function showResult(){
-  document.getElementById("quiz").style.display = "none";
-  const result = document.getElementById("result");
-  result.style.display = "block";
-  let msg = "";
-  if(score===total) msg = "🌟 Hebat! Awak pewaris Kesultanan Melayu sejati! 🌟";
-  else if(score>=total*0.7) msg = "💪 Bagus! Teruskan jadi wira sejarah tanah air!";
-  else msg = "📘 Cuba lagi! Ilmu sejarahmu bakal gemilang!";
-  result.innerHTML = `
-    <p>Markah akhir: ${score}/${total}</p>
-    <p>${msg}</p>
-    <button onclick="restart()">Main Semula</button>
-  `;
-  // bunyi sorakan akhir: new Audio('cheer.mp3').play();
-}
-
-function restart(){
-  document.getElementById("result").style.display="none";
-  document.getElementById("menu").style.display="block";
-}
-</script>
+  <!-- 🎵 Bahagian bunyi -->
+  <audio id="clickSound" src="mixkit-sad-game-over-trombone-471.wav"></audio>
+  <audio id="correctSound" src="mixkit-correct-answer-tone-2870.wav"></audio>
+  <audio id="wrongSound" src="mixkit-wrong-answer-fail-notification-946.wav"></audio>
+  <audio id="cheerSound" src="mixkit-achievement-bell-600.wav"></audio>
 </body>
 </html>
