@@ -55,21 +55,7 @@
       color: #4a148c;
       margin-top: 25px;
       animation: fadeIn 1s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      text-align: left;
     }
 
     .restart-btn {
@@ -88,6 +74,24 @@
       background-color: #42a5f5;
       transform: scale(1.1);
     }
+
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 
@@ -96,30 +100,29 @@
   <div id="quiz-container"></div>
   <p id="result"></p>
 
+  <!-- 🎵 Bunyi -->
+  <audio id="clickSound" src="mixkit-sad-game-over-trombone-471.wav"></audio>
+  <audio id="correctSound" src="mixkit-correct-answer-tone-2870.wav"></audio>
+  <audio id="wrongSound" src="mixkit-wrong-answer-fail-notification-946.wav"></audio>
+  <audio id="cheerSound" src="mixkit-achievement-bell-600.wav"></audio>
+
   <script>
     const quiz = [
-      // 🏰 PAHANG
       { question: "1. Bilakah Kesultanan Melayu Pahang diasaskan?", answers: ["1454", "1470", "1500", "1511"], correct: 1 },
       { question: "2. Siapakah sultan pertama Kesultanan Melayu Pahang?", answers: ["Sultan Ahmad", "Sultan Mansur", "Sultan Muzaffar", "Sultan Alauddin"], correct: 0 },
       { question: "3. Dari mana asal keturunan Sultan Ahmad Pahang?", answers: ["Melaka", "Perak", "Johor", "Terengganu"], correct: 0 },
       { question: "4. Apakah hasil utama negeri Pahang pada masa itu?", answers: ["Timah", "Emas", "Petroleum", "Hasil laut"], correct: 1 },
       { question: "5. Siapakah yang menakluk Pahang pada tahun 1617?", answers: ["Aceh", "Johor", "Portugis", "Siam"], correct: 0 },
-
-      // 🌾 PERAK
       { question: "6. Siapakah sultan pertama Kesultanan Melayu Perak?", answers: ["Sultan Muzaffar Shah", "Sultan Mansur Shah", "Sultan Mahmud Shah", "Sultan Alauddin"], correct: 0 },
       { question: "7. Dari manakah asal Sultan Muzaffar Shah?", answers: ["Melaka", "Johor", "Pahang", "Terengganu"], correct: 0 },
       { question: "8. Apakah sungai utama yang menjadi tumpuan di Perak?", answers: ["Sungai Pahang", "Sungai Perak", "Sungai Selangor", "Sungai Terengganu"], correct: 1 },
       { question: "9. Apakah hasil penting Perak pada abad ke-16?", answers: ["Timah", "Emas", "Lada hitam", "Beras"], correct: 0 },
       { question: "10. Siapakah pemerintah Perak semasa penjajahan British bermula?", answers: ["Sultan Abdullah", "Sultan Iskandar", "Sultan Mahmud", "Sultan Ahmad"], correct: 0 },
-
-      // 🌊 TERENGGANU
       { question: "11. Bilakah Kesultanan Melayu Terengganu diasaskan?", answers: ["1708", "1725", "1750", "1770"], correct: 0 },
       { question: "12. Siapakah sultan pertama Kesultanan Melayu Terengganu?", answers: ["Sultan Zainal Abidin I", "Sultan Mahmud", "Sultan Ahmad", "Sultan Omar"], correct: 0 },
       { question: "13. Apakah hasil utama negeri Terengganu pada masa itu?", answers: ["Timah", "Hasil laut", "Emas", "Rempah"], correct: 1 },
       { question: "14. Apakah nama naskhah undang-undang Terengganu yang terkenal?", answers: ["Undang-undang Pahang", "Batu Bersurat Terengganu", "Hukum Kanun Melaka", "Adat Temenggung"], correct: 1 },
       { question: "15. Siapakah yang memperkenalkan sistem pentadbiran moden di Terengganu?", answers: ["Sultan Zainal Abidin III", "Sultan Omar", "Sultan Mahmud", "Sultan Ahmad"], correct: 0 },
-
-      // 🌺 SELANGOR
       { question: "16. Bilakah Kesultanan Melayu Selangor diasaskan?", answers: ["1766", "1750", "1800", "1700"], correct: 0 },
       { question: "17. Siapakah sultan pertama Selangor?", answers: ["Sultan Salehuddin", "Sultan Mahmud", "Sultan Abdul Samad", "Sultan Mansur"], correct: 0 },
       { question: "18. Dari mana asal keturunan Sultan Selangor?", answers: ["Bugis", "Melayu Melaka", "Jawa", "Minangkabau"], correct: 0 },
@@ -129,6 +132,7 @@
 
     let current = 0;
     let score = 0;
+    let userAnswers = [];
 
     const quizContainer = document.getElementById("quiz-container");
     const result = document.getElementById("result");
@@ -147,6 +151,7 @@
     }
 
     function checkAnswer(i) {
+      userAnswers.push(i);
       if (i === quiz[current].correct) {
         score++;
         document.getElementById("correctSound").play();
@@ -164,32 +169,41 @@
 
     function endQuiz() {
       quizContainer.innerHTML = "";
-      if (score === quiz.length) {
-        document.getElementById("cheerSound").play();
-        result.innerHTML = `<h2>🌟 Hebat! Markah anda: ${score}/${quiz.length}</h2>`;
-      } else {
-        document.getElementById("clickSound").play();
-        result.innerHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2>`;
-      }
+      document.getElementById("clickSound").play();
 
-      result.innerHTML += `<br><button class="restart-btn" onclick="restartQuiz()">Ulang Kuiz 🔁</button>`;
+      let reviewHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2><hr>`;
+      reviewHTML += `<h3>Semak Jawapan Anda:</h3>`;
+
+      quiz.forEach((q, index) => {
+        const userAnsIndex = userAnswers[index];
+        const userAnsText = q.answers[userAnsIndex];
+        const correctAnsText = q.answers[q.correct];
+        const icon = userAnsIndex === q.correct ? "✅" : "❌";
+        const ansClass = userAnsIndex === q.correct ? "correct" : "wrong";
+
+        reviewHTML += `
+          <p>
+            <b>Soalan ${index + 1}:</b> ${q.question}<br>
+            Jawapan anda: <span class="${ansClass}">${userAnsText} ${icon}</span><br>
+            Jawapan betul: <b>${correctAnsText}</b>
+          </p>
+          <hr>
+        `;
+      });
+
+      reviewHTML += `<button class="restart-btn" onclick="restartQuiz()">Ulang Kuiz 🔁</button>`;
+      result.innerHTML = reviewHTML;
     }
 
     function restartQuiz() {
       score = 0;
       current = 0;
+      userAnswers = [];
       result.innerHTML = "";
       showQuestion();
     }
 
     showQuestion();
   </script>
-
-  <!-- 🎵 Bunyi -->
-  <audio id="clickSound" src="mixkit-sad-game-over-trombone-471.wav"></audio>
-  <audio id="correctSound" src="mixkit-correct-answer-tone-2870.wav"></audio>
-  <audio id="wrongSound" src="mixkit-wrong-answer-fail-notification-946.wav"></audio>
-  <audio id="cheerSound" src="mixkit-achievement-bell-600.wav"></audio>
 </body>
 </html>
-        
