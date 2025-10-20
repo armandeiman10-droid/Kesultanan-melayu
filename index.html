@@ -1,49 +1,98 @@
- <!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kuiz Kesultanan Melayu</title>
+  <title>Kuiz Kesultanan Melayu 💖</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
     body {
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(120deg, #e0f7fa, #80deea);
+      background: linear-gradient(135deg, #a7c7e7, #f8bbd0);
       text-align: center;
       padding: 30px;
+      animation: fadeIn 1s ease-in-out;
     }
+
     h1 {
-      color: #004d40;
+      color: #4a148c;
       font-size: 2em;
       margin-bottom: 20px;
+      animation: slideDown 1s ease;
     }
+
     .question {
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      background: #ffffffcc;
+      border-radius: 25px;
+      padding: 25px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
       margin: 20px auto;
       width: 90%;
       max-width: 500px;
+      animation: popIn 0.5s ease;
     }
+
     button {
       margin: 10px;
-      padding: 10px 20px;
+      padding: 12px 22px;
       border: none;
-      border-radius: 10px;
-      background-color: #00796b;
+      border-radius: 12px;
+      background-color: #ff80ab;
       color: white;
       font-size: 1em;
+      cursor: pointer;
       transition: 0.3s;
     }
+
     button:hover {
-      background-color: #004d40;
-      transform: scale(1.05);
+      background-color: #ec407a;
+      transform: scale(1.07);
+    }
+
+    #result {
+      font-size: 1.4em;
+      color: #4a148c;
+      margin-top: 25px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .restart-btn {
+      background-color: #64b5f6;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 25px;
+      font-size: 1em;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .restart-btn:hover {
+      background-color: #42a5f5;
+      transform: scale(1.1);
     }
   </style>
 </head>
 
 <body>
-  <h1>Kuiz Interaktif: Kesultanan Melayu</h1>
+  <h1>💖 Kuiz Kesultanan Melayu 💖</h1>
   <div id="quiz-container"></div>
   <p id="result"></p>
 
@@ -114,10 +163,20 @@
       quizContainer.innerHTML = "";
       if (score === quiz.length) {
         document.getElementById("cheerSound").play();
+        result.innerHTML = `<h2>Hebat! Markah anda: ${score}/${quiz.length} 🌟</h2>`;
       } else {
         document.getElementById("clickSound").play();
+        result.innerHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2>`;
       }
-      result.innerHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2>`;
+
+      result.innerHTML += `<br><button class="restart-btn" onclick="restartQuiz()">Ulang Kuiz 🔁</button>`;
+    }
+
+    function restartQuiz() {
+      score = 0;
+      current = 0;
+      result.innerHTML = "";
+      showQuestion();
     }
 
     showQuestion();
@@ -129,4 +188,4 @@
   <audio id="wrongSound" src="mixkit-wrong-answer-fail-notification-946.wav"></audio>
   <audio id="cheerSound" src="mixkit-achievement-bell-600.wav"></audio>
 </body>
-</html>
+</html> 
