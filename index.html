@@ -1,5 +1,4 @@
-
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ms">
 <head>
   <meta charset="UTF-8" />
@@ -97,7 +96,6 @@
       transform: scale(1.1);
     }
 
-    /* Animasi asas */
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -120,6 +118,18 @@
       0% { transform: translateY(0) rotate(0deg); opacity:1; }
       100% { transform: translateY(100vh) rotate(720deg); opacity:0; }
     }
+
+    /* Leaderboard */
+    #leaderboard {
+      margin-top: 20px;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #leaderboard h3 { color: #4a148c; }
+    #leaderboard ol { padding-left: 20px; }
   </style>
 </head>
 
@@ -129,8 +139,9 @@
   
   <div id="quiz-container"></div>
   <p id="result"></p>
+  <div id="leaderboard"></div>
 
-  <!-- 🎵 Bunyi -->
+  <!-- Bunyi -->
   <audio id="clickSound" src="mixkit-sad-game-over-trombone-471.wav"></audio>
   <audio id="correctSound" src="mixkit-correct-answer-tone-2870.wav"></audio>
   <audio id="wrongSound" src="mixkit-wrong-answer-fail-notification-946.wav"></audio>
@@ -167,6 +178,7 @@
     const quizContainer = document.getElementById("quiz-container");
     const result = document.getElementById("result");
     const scoreDisplay = document.getElementById("score-display");
+    const leaderboardDiv = document.getElementById("leaderboard");
 
     function showQuestion() {
       const q = quiz[current];
@@ -221,6 +233,16 @@
       document.getElementById("clickSound").play();
       showConfetti();
 
+      let playerName = prompt("Kuiz tamat! Masukkan nama anda untuk leaderboard:");
+      if (!playerName) playerName = "Anonymous";
+
+      // Simpan skor ke localStorage
+      let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+      leaderboard.push({name: playerName, score: score});
+      leaderboard.sort((a,b) => b.score - a.score);
+      if (leaderboard.length > 5) leaderboard = leaderboard.slice(0,5);
+      localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+
       let reviewHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2><hr>`;
       reviewHTML += `<h3>Semak Jawapan Anda:</h3>`;
 
@@ -228,46 +250,4 @@
         const userAnsIndex = userAnswers[index];
         const userAnsText = q.answers[userAnsIndex];
         const correctAnsText = q.answers[q.correct];
-        const icon = userAnsIndex === q.correct ? "✅" : "❌";
-        const ansClass = userAnsIndex === q.correct ? "correct" : "wrong";
-
-        reviewHTML += `
-          <p>
-            <b>Soalan ${index + 1}:</b> ${q.question}<br>
-            Jawapan anda: <span class="${ansClass}">${userAnsText} ${icon}</span><br>
-            Jawapan betul: <b>${correctAnsText}</b>
-          </p>
-          <hr>
-        `;
-      });
-
-      reviewHTML += `<button class="restart-btn" onclick="restartQuiz()">Ulang Kuiz 🔁</button>`;
-      result.innerHTML = reviewHTML;
-      scoreDisplay.textContent = `Skor akhir: ${score}`;
-    }
-
-    function restartQuiz() {
-      score = 0;
-      current = 0;
-      userAnswers = [];
-      result.innerHTML = "";
-      showQuestion();
-    }
-
-    function showConfetti() {
-      const colors = ['#ff0a54','#ff477e','#ff7096','#ff85a1','#fbb1b1','#f9bec7','#f7cad0','#fae0e4'];
-      for (let i = 0; i < 150; i++) {
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
-        document.body.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 3500);
-      }
-    }
-
-    showQuestion();
-  </script>
-</body>
-</html>
+        const icon = userAnsIndex === q.correct ? "✅"
