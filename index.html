@@ -30,7 +30,6 @@
       display: inline-block;
     }
 
-    /* Animasi skor naik */
     @keyframes scorePop {
       0% { transform: scale(1); color: #4a148c; }
       50% { transform: scale(1.5); color: #ffeb3b; }
@@ -96,12 +95,10 @@
       transform: scale(1.1);
     }
 
-    /* Animasi asas */
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-    /* Confetti */
     .confetti {
       position: fixed;
       width: 10px;
@@ -125,11 +122,10 @@
 <body>
   <h1>💖 Kuiz Bab 7: Kesultanan Melayu 💖</h1>
   <p id="score-display">Skor semasa: 0</p>
-  
+
   <div id="quiz-container"></div>
   <p id="result"></p>
 
-  <!-- 🎵 Bunyi -->
   <audio id="clickSound" src="mixkit-sad-game-over-trombone-471.wav"></audio>
   <audio id="correctSound" src="mixkit-correct-answer-tone-2870.wav"></audio>
   <audio id="wrongSound" src="mixkit-wrong-answer-fail-notification-946.wav"></audio>
@@ -137,26 +133,26 @@
 
   <script>
     const quiz = [
-      { question: "1. Bilakah Kesultanan Melayu Pahang diasaskan?", answers: ["1454", "1470", "1500", "1511"], correct: 1 },
-      { question: "2. Siapakah sultan pertama Kesultanan Melayu Pahang?", answers: ["Sultan Ahmad", "Sultan Mansur", "Sultan Muzaffar", "Sultan Alauddin"], correct: 0 },
-      { question: "3. Dari mana asal keturunan Sultan Ahmad Pahang?", answers: ["Melaka", "Perak", "Johor", "Terengganu"], correct: 0 },
-      { question: "4. Apakah hasil utama negeri Pahang pada masa itu?", answers: ["Timah", "Emas", "Petroleum", "Hasil laut"], correct: 1 },
-      { question: "5. Siapakah yang menakluk Pahang pada tahun 1617?", answers: ["Aceh", "Johor", "Portugis", "Siam"], correct: 0 },
-      { question: "6. Siapakah sultan pertama Kesultanan Melayu Perak?", answers: ["Sultan Muzaffar Shah", "Sultan Mansur Shah", "Sultan Mahmud Shah", "Sultan Alauddin"], correct: 0 },
-      { question: "7. Dari manakah asal Sultan Muzaffar Shah?", answers: ["Melaka", "Johor", "Pahang", "Terengganu"], correct: 0 },
-      { question: "8. Apakah sungai utama yang menjadi tumpuan di Perak?", answers: ["Sungai Pahang", "Sungai Perak", "Sungai Selangor", "Sungai Terengganu"], correct: 1 },
-      { question: "9. Apakah hasil penting Perak pada abad ke-16?", answers: ["Timah", "Emas", "Lada hitam", "Beras"], correct: 0 },
-      { question: "10. Siapakah pemerintah Perak semasa penjajahan British bermula?", answers: ["Sultan Abdullah", "Sultan Iskandar", "Sultan Mahmud", "Sultan Ahmad"], correct: 0 },
-      { question: "11. Bilakah Kesultanan Melayu Terengganu diasaskan?", answers: ["1708", "1725", "1750", "1770"], correct: 0 },
-      { question: "12. Siapakah sultan pertama Kesultanan Melayu Terengganu?", answers: ["Sultan Zainal Abidin I", "Sultan Mahmud", "Sultan Ahmad", "Sultan Omar"], correct: 0 },
-      { question: "13. Apakah hasil utama negeri Terengganu pada masa itu?", answers: ["Timah", "Hasil laut", "Emas", "Rempah"], correct: 1 },
-      { question: "14. Apakah nama naskhah undang-undang Terengganu yang terkenal?", answers: ["Undang-undang Pahang", "Batu Bersurat Terengganu", "Hukum Kanun Melaka", "Adat Temenggung"], correct: 1 },
-      { question: "15. Siapakah yang memperkenalkan sistem pentadbiran moden di Terengganu?", answers: ["Sultan Zainal Abidin III", "Sultan Omar", "Sultan Mahmud", "Sultan Ahmad"], correct: 0 },
-      { question: "16. Bilakah Kesultanan Melayu Selangor diasaskan?", answers: ["1766", "1750", "1800", "1700"], correct: 0 },
-      { question: "17. Siapakah sultan pertama Selangor?", answers: ["Sultan Salehuddin", "Sultan Mahmud", "Sultan Abdul Samad", "Sultan Mansur"], correct: 0 },
-      { question: "18. Dari mana asal keturunan Sultan Selangor?", answers: ["Bugis", "Melayu Melaka", "Jawa", "Minangkabau"], correct: 0 },
-      { question: "19. Apakah pusat pemerintahan awal Selangor?", answers: ["Kuala Selangor", "Klang", "Sabak Bernam", "Kuala Lumpur"], correct: 0 },
-      { question: "20. Siapakah Sultan Selangor yang menandatangani perjanjian dengan British pada 1875?", answers: ["Sultan Abdul Samad", "Sultan Salehuddin", "Sultan Mahmud", "Sultan Ibrahim"], correct: 0 }
+      { question: "1. Siapakah anak angkat raja Patani?", answers: ["Raja Lumu","Raja Muda","Raja Ahmad","Raja Saleh"], correct: 0 },
+      { question: "2. Dimanakah lokasi pusat pemerintahan awal kesultanan Melayu?", answers: ["Melaka","Kuala Selangor","Kuala Perak","Kuala Pahang"], correct: 0 },
+      { question: "3. Siapakah yang menggubal undang-undang bagi diri kerajaan Terengganu?", answers: ["Sultan Zainal Abidin I","Sultan Mahmud","Sultan Ahmad","Sultan Omar"], correct: 0 },
+      { question: "4. Siapakah putera Sultan Mahmood Shah yang ditabalkan menjadi sultan Perak?", answers: ["Sultan Muzaffar Shah","Sultan Salehuddin","Sultan Abdul Samad","Sultan Mansur"], correct: 0 },
+      { question: "5. Dimanakah lokasi pusat pemerintahan awal bagi kerajaan kesultanan Perak?", answers: ["Kuala Kangsar","Kuala Selangor","Kuala Terengganu","Kuala Pahang"], correct: 0 },
+      { question: "6. Undang-Undang yang diperkemaskan oleh Sultan Iskandar Dzulkarnain di Perak?", answers: ["Undang-Undang 99 Perak","Undang-Undang Melaka","Undang-Undang Johor","Undang-Undang Pahang"], correct: 0 },
+      { question: "7. Di manakah Raja Lumu mendapatkan pengiktirafan untuk menjadi sultan Selangor?", answers: ["Dari British","Dari Sultan Perak","Dari Sultan Pahang","Dari Sultan Johor"], correct: 1 },
+      { question: "8. Pusat pemerintahan Raja Lumu atau Sultan Salehuddin Shah yang pertama?", answers: ["Kuala Selangor","Klang","Sabak Bernam","Kuala Lumpur"], correct: 0 },
+      { question: "9. Siapakah ayahanda kepada Raja Lumu?", answers: ["Bugis","Sultan Mahmud","Sultan Abdullah","Sultan Salehuddin"], correct: 0 },
+      { question: "10. Tengkolok kesultanan Kerajaan Pahang digelar sebagai?", answers: ["Tengkolok Diraja","Tengkolok Sultan","Tengkolok Mahkota","Tengkolok Agung"], correct: 0 },
+      { question: "11. Kesultanan Pahang mengamalkan sistem pemerintahan secara?", answers: ["Monarki","Demokrasi","Oligarki","Majlis"], correct: 0 },
+      { question: "12. Apakah gelaran bagi waris ganti Kesultanan Pahang?", answers: ["Raja Muda","Tengku Mahkota","Putera Mahkota","Raja Bendahara"], correct: 0 },
+      { question: "13. Dalam kesultanan Pahang, apakah badan yang memberi persetujuan atas pelantikan Sultan?", answers: ["Majlis Raja-Raja","Dewan Diraja","Dewan Pangkuan","Majlis Pemerintahan"], correct: 2 },
+      { question: "14. Berikut adalah nama bagi 4 pembesar utama kesultanan Pahang, KECUALI", answers: ["Bendahara","Temenggung","Laksamana","Wazir"], correct: 3 },
+      { question: "15. Dalam kesultanan Perak, badan manakah yang berperanan memilih dan melantik Sultan?", answers: ["Dewan Diraja","Majlis Raja-Raja","Dewan Pangkuan","Majlis Pemerintahan"], correct: 2 },
+      { question: "16. Apakah nama lain bagi jumaah Dewan Pangkuan Diraja Terengganu?", answers: ["Majlis Diraja","Dewan Raja-Raja","Dewan Sultan","Majlis Pangkuan"], correct: 0 },
+      { question: "17. Pemerintahan kerajaan negeri dijalankan bersama-sama?", answers: ["Pembesar","Sultan","Rakyat","Majlis Diraja"], correct: 0 },
+      { question: "18. Keris Taming Sari adalah alat kebesaran diraja?", answers: ["Perak","Pahang","Selangor","Terengganu"], correct: 0 },
+      { question: "19. Berikut adalah karya-karya dalam persuratan semua negeri, KECUALI.", answers: ["Hikayat Hang Tuah","Sejarah Melayu","Undang-Undang Johor","Batu Bersurat Pahang"], correct: 3 },
+      { question: "20. Undang-Undang 99 Perak Diguna semasa pemerintahan Sultan?", answers: ["Sultan Iskandar Dzulkarnain","Sultan Muzaffar Shah","Sultan Abdullah","Sultan Salehuddin"], correct: 0 }
     ];
 
     let current = 0;
