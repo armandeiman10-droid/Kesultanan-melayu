@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kuiz Bab 7: Kesultanan Melayu 💖</title>
+  <title>💖 Kuiz Bab 7: Kesultanan Melayu 💖</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
@@ -36,9 +36,7 @@
       100% { transform: scale(1); color: #4a148c; }
     }
 
-    .score-animate {
-      animation: scorePop 0.6s ease;
-    }
+    .score-animate { animation: scorePop 0.6s ease; }
 
     .question {
       background: #ffffffcc;
@@ -49,6 +47,7 @@
       width: 90%;
       max-width: 550px;
       animation: popIn 0.5s ease;
+      position: relative;
     }
 
     button {
@@ -63,10 +62,7 @@
       transition: 0.3s;
     }
 
-    button:hover {
-      transform: scale(1.07);
-    }
-
+    button:hover { transform: scale(1.07); }
     .correct { background-color: green !important; }
     .wrong { background-color: red !important; }
 
@@ -116,13 +112,33 @@
       0% { transform: translateY(0) rotate(0deg); opacity:1; }
       100% { transform: translateY(100vh) rotate(720deg); opacity:0; }
     }
+
+    .hint {
+      font-size: 0.9em;
+      color: #6a1b9a;
+      background: #f3e5f5;
+      border-radius: 10px;
+      padding: 5px 10px;
+      display: inline-block;
+      margin-top: 10px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .feedback {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 10px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .feedback.correct { color: green; }
+    .feedback.wrong { color: red; }
   </style>
 </head>
 
 <body>
   <h1>💖 Kuiz Bab 7: Kesultanan Melayu 💖</h1>
   <p id="score-display">Skor semasa: 0</p>
-
   <div id="quiz-container"></div>
   <p id="result"></p>
 
@@ -133,26 +149,26 @@
 
   <script>
     const quiz = [
-      { question: "1. Siapakah anak angkat raja Patani?", answers: ["Raja Lumu","Raja Muda","Raja Ahmad","Raja Saleh"], correct: 0 },
-      { question: "2. Dimanakah lokasi pusat pemerintahan awal kesultanan Melayu?", answers: ["Melaka","Kuala Selangor","Kuala Perak","Kuala Pahang"], correct: 0 },
-      { question: "3. Siapakah yang menggubal undang-undang bagi diri kerajaan Terengganu?", answers: ["Sultan Zainal Abidin I","Sultan Mahmud","Sultan Ahmad","Sultan Omar"], correct: 0 },
-      { question: "4. Siapakah putera Sultan Mahmood Shah yang ditabalkan menjadi sultan Perak?", answers: ["Sultan Muzaffar Shah","Sultan Salehuddin","Sultan Abdul Samad","Sultan Mansur"], correct: 0 },
-      { question: "5. Dimanakah lokasi pusat pemerintahan awal bagi kerajaan kesultanan Perak?", answers: ["Kuala Kangsar","Kuala Selangor","Kuala Terengganu","Kuala Pahang"], correct: 0 },
-      { question: "6. Undang-Undang yang diperkemaskan oleh Sultan Iskandar Dzulkarnain di Perak?", answers: ["Undang-Undang 99 Perak","Undang-Undang Melaka","Undang-Undang Johor","Undang-Undang Pahang"], correct: 0 },
-      { question: "7. Di manakah Raja Lumu mendapatkan pengiktirafan untuk menjadi sultan Selangor?", answers: ["Dari British","Dari Sultan Perak","Dari Sultan Pahang","Dari Sultan Johor"], correct: 1 },
-      { question: "8. Pusat pemerintahan Raja Lumu atau Sultan Salehuddin Shah yang pertama?", answers: ["Kuala Selangor","Klang","Sabak Bernam","Kuala Lumpur"], correct: 0 },
-      { question: "9. Siapakah ayahanda kepada Raja Lumu?", answers: ["Bugis","Sultan Mahmud","Sultan Abdullah","Sultan Salehuddin"], correct: 0 },
-      { question: "10. Tengkolok kesultanan Kerajaan Pahang digelar sebagai?", answers: ["Tengkolok Diraja","Tengkolok Sultan","Tengkolok Mahkota","Tengkolok Agung"], correct: 0 },
-      { question: "11. Kesultanan Pahang mengamalkan sistem pemerintahan secara?", answers: ["Monarki","Demokrasi","Oligarki","Majlis"], correct: 0 },
-      { question: "12. Apakah gelaran bagi waris ganti Kesultanan Pahang?", answers: ["Raja Muda","Tengku Mahkota","Putera Mahkota","Raja Bendahara"], correct: 0 },
-      { question: "13. Dalam kesultanan Pahang, apakah badan yang memberi persetujuan atas pelantikan Sultan?", answers: ["Majlis Raja-Raja","Dewan Diraja","Dewan Pangkuan","Majlis Pemerintahan"], correct: 2 },
-      { question: "14. Berikut adalah nama bagi 4 pembesar utama kesultanan Pahang, KECUALI", answers: ["Bendahara","Temenggung","Laksamana","Wazir"], correct: 3 },
-      { question: "15. Dalam kesultanan Perak, badan manakah yang berperanan memilih dan melantik Sultan?", answers: ["Dewan Diraja","Majlis Raja-Raja","Dewan Pangkuan","Majlis Pemerintahan"], correct: 2 },
-      { question: "16. Apakah nama lain bagi jumaah Dewan Pangkuan Diraja Terengganu?", answers: ["Majlis Diraja","Dewan Raja-Raja","Dewan Sultan","Majlis Pangkuan"], correct: 0 },
-      { question: "17. Pemerintahan kerajaan negeri dijalankan bersama-sama?", answers: ["Pembesar","Sultan","Rakyat","Majlis Diraja"], correct: 0 },
-      { question: "18. Keris Taming Sari adalah alat kebesaran diraja?", answers: ["Perak","Pahang","Selangor","Terengganu"], correct: 0 },
-      { question: "19. Berikut adalah karya-karya dalam persuratan semua negeri, KECUALI.", answers: ["Hikayat Hang Tuah","Sejarah Melayu","Undang-Undang Johor","Batu Bersurat Pahang"], correct: 3 },
-      { question: "20. Undang-Undang 99 Perak Diguna semasa pemerintahan Sultan?", answers: ["Sultan Iskandar Dzulkarnain","Sultan Muzaffar Shah","Sultan Abdullah","Sultan Salehuddin"], correct: 0 }
+      { question: "1. Siapakah anak angkat Raja Patani?", answers: ["Raja Bahar", "Tun Telanai", "Raja Sakti", "Che Siti Wan Kembang"], correct: 3, hint: "Tokoh wanita terkenal dari Kelantan." },
+      { question: "2. Di manakah lokasi pusat pemerintahan awal Kesultanan Melayu?", answers: ["Melaka", "Pahang", "Perak", "Kuala Selangor"], correct: 0, hint: "Sebuah pelabuhan terkenal di Selat Melaka." },
+      { question: "3. Siapakah yang menggubal undang-undang bagi kerajaan Terengganu?", answers: ["Sultan Zainal Abidin III", "Sultan Omar", "Sultan Mansur", "Sultan Mahmud"], correct: 0, hint: "Baginda ialah sultan ketiga belas Terengganu." },
+      { question: "4. Siapakah putera Sultan Mahmud Shah yang ditabalkan menjadi Sultan Perak?", answers: ["Sultan Muzaffar Shah", "Sultan Alauddin", "Sultan Mansur", "Sultan Ahmad"], correct: 0, hint: "Nama baginda sama dengan sultan Melaka dahulu." },
+      { question: "5. Di manakah lokasi pusat pemerintahan awal bagi Kesultanan Perak?", answers: ["Kuala Kangsar", "Teluk Intan", "Lambor Kanan", "Pasir Salak"], correct: 2, hint: "Sebuah kawasan berhampiran Sungai Perak." },
+      { question: "6. Undang-undang yang diperkemaskan oleh Sultan Iskandar Dzulkarnain di Perak?", answers: ["Undang-undang 99 Perak", "Hukum Kanun Melaka", "Adat Temenggung", "Undang-undang Laut"], correct: 0, hint: "Mengandungi 99 fasal penting." },
+      { question: "7. Di manakah Raja Lumu mendapatkan pengiktirafan untuk menjadi Sultan Selangor?", answers: ["Riau", "Johor", "Langkat", "Perak"], correct: 0, hint: "Sebuah pusat Kesultanan Johor-Riau." },
+      { question: "8. Pusat pemerintahan pertama Sultan Salehuddin Shah?", answers: ["Kuala Selangor", "Klang", "Sabak Bernam", "Kuala Lumpur"], correct: 0, hint: "Terletak berhampiran muara sungai besar di Selangor." },
+      { question: "9. Siapakah ayahanda kepada Raja Lumu?", answers: ["Daeng Chelak", "Daeng Parani", "Daeng Merewah", "Daeng Kemboja"], correct: 0, hint: "Seorang pahlawan Bugis terkenal." },
+      { question: "10. Tengkolok Kesultanan Pahang digelar sebagai?", answers: ["Solek Balung Raja", "Solek Dendam Tak Sudah", "Solek Lang Menyusur Angin", "Solek Gading"], correct: 1, hint: "Nama tengkolok ini membawa maksud kesetiaan yang berterusan." },
+      { question: "11. Kesultanan Pahang mengamalkan sistem pemerintahan secara?", answers: ["Feudal", "Demokrasi", "Kesukuan", "Autokratik"], correct: 0, hint: "Sistem yang menekankan pembesar dan rakyat." },
+      { question: "12. Apakah gelaran bagi waris ganti Kesultanan Pahang?", answers: ["Tengku Mahkota", "Raja Muda", "Tengku Amir", "Putera Diraja"], correct: 0, hint: "Gelaran rasmi pewaris takhta negeri itu." },
+      { question: "13. Dalam Kesultanan Pahang, apakah badan yang memberi persetujuan atas pelantikan Sultan?", answers: ["Jumaah Pangkuan Diraja", "Majlis Raja-Raja", "Jemaah Menteri", "Majlis Pembesar Negeri"], correct: 0, hint: "Badan penasihat diraja tertinggi negeri." },
+      { question: "14. Berikut ialah nama 4 pembesar utama Kesultanan Pahang, KECUALI?", answers: ["Orang Kaya Indera Pahlawan", "Orang Kaya Indera Perba Jelai", "Orang Kaya Indera Shahbandar", "Orang Kaya Indera Bakti"], correct: 3, hint: "Nama itu tidak wujud dalam struktur asal." },
+      { question: "15. Dalam Kesultanan Perak, badan manakah berperanan memilih dan melantik Sultan?", answers: ["Dewan Negara", "Dewan Undangan Negeri", "Dewan Negara Perak", "Dewan Negara Melayu"], correct: 2, hint: "Namanya bermula dengan 'Dewan Negara' dan berkaitan negeri tersebut." },
+      { question: "16. Apakah nama lain bagi Jumaah Dewan Pangkuan Diraja Terengganu?", answers: ["Majlis Mesyuarat Negeri", "Majlis Diraja", "Majlis Istiadat Negeri", "Majlis Agama Islam"], correct: 1, hint: "Badan diraja yang menasihati sultan." },
+      { question: "17. Pemerintahan kerajaan negeri dijalankan bersama-sama?", answers: ["Sultan dan pembesar", "Sultan dan rakyat", "Sultan dan askar", "Sultan dan kerabat"], correct: 0, hint: "Sultan tidak memerintah bersendirian." },
+      { question: "18. Keris Taming Sari ialah alat kebesaran diraja?", answers: ["Melaka", "Johor", "Pahang", "Perak"], correct: 0, hint: "Negeri bersejarah di tepi Selat." },
+      { question: "19. Berikut ialah karya dalam persuratan semua negeri, KECUALI?", answers: ["Hikayat Hang Tuah", "Sulalatus Salatin", "Hikayat Raja Pasai", "Undang-undang 99 Perak"], correct: 3, hint: "Ia bukan karya sastera tetapi undang-undang." },
+      { question: "20. Undang-undang 99 Perak diguna semasa pemerintahan Sultan?", answers: ["Sultan Iskandar Dzulkarnain", "Sultan Mahmud", "Sultan Alauddin", "Sultan Ahmad"], correct: 0, hint: "Baginda sultan yang memperkemasnya." }
     ];
 
     let current = 0;
@@ -171,10 +187,19 @@
           ${q.answers.map((a, i) =>
             `<button onclick="checkAnswer(this, ${i})">${a}</button>`
           ).join("")}
+          <div>
+            <button onclick="showHint()">💡 Petunjuk</button>
+            <p id="hint" class="hint" style="display:none;">${q.hint}</p>
+          </div>
+          <p>Soalan ${current + 1} daripada ${quiz.length}</p>
         </div>
-        <p>Soalan ${current + 1} daripada ${quiz.length}</p>
       `;
       updateScore();
+    }
+
+    function showHint() {
+      const hint = document.getElementById("hint");
+      hint.style.display = "block";
     }
 
     function updateScore() {
@@ -188,27 +213,32 @@
       const buttons = btn.parentElement.querySelectorAll("button");
       userAnswers.push(i);
 
+      const feedback = document.createElement("div");
+      feedback.classList.add("feedback");
+
       if (i === quiz[current].correct) {
         score++;
         btn.classList.add("correct");
         document.getElementById("correctSound").play();
+        feedback.textContent = "✨ Hebat!";
+        feedback.classList.add("correct");
       } else {
         btn.classList.add("wrong");
         buttons[quiz[current].correct].classList.add("correct");
         document.getElementById("wrongSound").play();
+        feedback.textContent = "❌ Cuba lagi!";
+        feedback.classList.add("wrong");
       }
 
+      btn.parentElement.appendChild(feedback);
       buttons.forEach(b => b.disabled = true);
       updateScore();
 
       setTimeout(() => {
         current++;
-        if (current < quiz.length) {
-          showQuestion();
-        } else {
-          endQuiz();
-        }
-      }, 1200);
+        if (current < quiz.length) showQuestion();
+        else endQuiz();
+      }, 1500);
     }
 
     function endQuiz() {
@@ -216,24 +246,16 @@
       document.getElementById("clickSound").play();
       showConfetti();
 
-      let reviewHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2><hr>`;
-      reviewHTML += `<h3>Semak Jawapan Anda:</h3>`;
-
+      let reviewHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2><hr><h3>Semak Jawapan Anda:</h3>`;
       quiz.forEach((q, index) => {
         const userAnsIndex = userAnswers[index];
         const userAnsText = q.answers[userAnsIndex];
         const correctAnsText = q.answers[q.correct];
         const icon = userAnsIndex === q.correct ? "✅" : "❌";
-        const ansClass = userAnsIndex === q.correct ? "correct" : "wrong";
-
         reviewHTML += `
-          <p>
-            <b>Soalan ${index + 1}:</b> ${q.question}<br>
-            Jawapan anda: <span class="${ansClass}">${userAnsText} ${icon}</span><br>
-            Jawapan betul: <b>${correctAnsText}</b>
-          </p>
-          <hr>
-        `;
+          <p><b>Soalan ${index + 1}:</b> ${q.question}<br>
+          Jawapan anda: <span>${userAnsText || "—"} ${icon}</span><br>
+          Jawapan betul: <b>${correctAnsText}</b></p><hr>`;
       });
 
       reviewHTML += `<button class="restart-btn" onclick="restartQuiz()">Ulang Kuiz 🔁</button>`;
