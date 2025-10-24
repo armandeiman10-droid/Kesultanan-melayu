@@ -29,13 +29,13 @@
       font-size: 24px;
     }
     .note {
-      font-size: 16px;
-      color: #444;
-      margin: 15px 0;
-      background: #fff3f8;
-      padding: 10px;
+      font-size: 15px;
+      color: #555;
+      background: #fff5f7;
+      padding: 8px;
       border-radius: 10px;
-      border-left: 5px solid #ff80ab;
+      border-left: 4px solid #ff80ab;
+      margin-bottom: 10px;
     }
     .question {
       font-size: 18px;
@@ -65,54 +65,35 @@
       font-weight: bold;
       color: #4caf50;
     }
-    .next-btn {
-      background-color: #ff4081;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: 0.3s;
-    }
-    .next-btn:hover {
-      background-color: #f06292;
-    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>💖 Kuiz Bab 7: Kesultanan Melayu 💖</h1>
-
-    <div id="note-section">
-      <div id="note-text" class="note"></div>
-      <button id="continue-btn" class="next-btn">Teruskan ke soalan ➜</button>
-    </div>
-
-    <div id="quiz" class="hidden">
+    <div id="quiz">
+      <div id="note" class="note"></div>
       <div id="question" class="question"></div>
       <div id="options" class="options"></div>
     </div>
-
     <div id="result" class="result hidden"></div>
   </div>
 
   <script>
     const quizData = [
       {
-        note: "Melaka diasaskan oleh seorang putera dari Palembang yang bernama Parameswara. Baginda membuka pelabuhan penting di Selat Melaka.",
+        note: "Melaka diasaskan oleh seorang putera dari Palembang yang bernama Parameswara.",
         question: "Siapakah pengasas Kesultanan Melayu Melaka?",
         options: ["Parameswara", "Tun Perak", "Hang Tuah", "Raja Kassim"],
         answer: "Parameswara"
       },
       {
-        note: "Pelabuhan Melaka menjadi pusat perdagangan antarabangsa kerana kedudukannya yang strategik di tengah-tengah laluan Timur dan Barat.",
+        note: "Pelabuhan Melaka menjadi pusat perdagangan antarabangsa kerana kedudukannya strategik.",
         question: "Apakah pelabuhan utama Kesultanan Melayu Melaka?",
         options: ["Pelabuhan Klang", "Pelabuhan Melaka", "Pelabuhan Singapura", "Pelabuhan Pahang"],
         answer: "Pelabuhan Melaka"
       },
       {
-        note: "Agama Islam mula tersebar luas di Melaka melalui perkahwinan diraja dan para pedagang dari Arab, India, dan China Muslim.",
+        note: "Agama Islam mula tersebar luas di Melaka melalui para pedagang dan perkahwinan diraja.",
         question: "Apakah agama rasmi Kesultanan Melayu Melaka?",
         options: ["Hindu", "Islam", "Buddha", "Kristian"],
         answer: "Islam"
@@ -122,29 +103,15 @@
     let currentQuestion = 0;
     let score = 0;
 
-    const noteSection = document.getElementById('note-section');
-    const noteText = document.getElementById('note-text');
-    const continueBtn = document.getElementById('continue-btn');
-    const quizEl = document.getElementById('quiz');
+    const noteEl = document.getElementById('note');
     const questionEl = document.getElementById('question');
     const optionsEl = document.getElementById('options');
     const resultEl = document.getElementById('result');
-
-    function loadNote() {
-      noteSection.classList.remove('hidden');
-      quizEl.classList.add('hidden');
-      const note = quizData[currentQuestion].note;
-      noteText.textContent = note;
-    }
-
-    continueBtn.onclick = () => {
-      noteSection.classList.add('hidden');
-      quizEl.classList.remove('hidden');
-      loadQuestion();
-    };
+    const quizEl = document.getElementById('quiz');
 
     function loadQuestion() {
       const q = quizData[currentQuestion];
+      noteEl.textContent = q.note; // Tambah nota di atas soalan
       questionEl.textContent = q.question;
       optionsEl.innerHTML = "";
       q.options.forEach(opt => {
@@ -161,14 +128,14 @@
       if (selected === correct) {
         score++;
       }
-      // ⏱️ Soalan seterusnya muncul selepas 3 saat
+      // Tunggu 3 saat sebelum soalan seterusnya
       setTimeout(nextQuestion, 3000);
     }
 
     function nextQuestion() {
       currentQuestion++;
       if (currentQuestion < quizData.length) {
-        loadNote();
+        loadQuestion();
       } else {
         showResult();
       }
@@ -176,13 +143,11 @@
 
     function showResult() {
       quizEl.classList.add('hidden');
-      noteSection.classList.add('hidden');
       resultEl.classList.remove('hidden');
       resultEl.textContent = `Skor anda: ${score} / ${quizData.length}`;
     }
 
-    // Mula dengan nota pertama
-    loadNote();
+    loadQuestion();
   </script>
 </body>
 </html>
