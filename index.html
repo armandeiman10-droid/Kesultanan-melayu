@@ -1,289 +1,316 @@
-<!-- 🌟 BAHAGIAN 1: EKSPLORASI INTERAKTIF KESULTANAN MELAYU 🌟 -->
-<section id="eksplorasi">
-  <h1>🏰 Eksplorasi Kesultanan Melayu 🏰</h1>
-  <p>Klik pada kad untuk mengetahui maklumat ringkas tentang setiap kesultanan.</p>
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💖 Kuiz Bab 7: Kesultanan Melayu 💖</title>
 
-  <div class="grid-container">
-    <div class="card" onclick="showInfo('pahang')">Kesultanan Pahang</div>
-    <div class="card" onclick="showInfo('perak')">Kesultanan Perak</div>
-    <div class="card" onclick="showInfo('terengganu')">Kesultanan Terengganu</div>
-    <div class="card" onclick="showInfo('selangor')">Kesultanan Selangor</div>
-  </div>
-</section>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
-<!-- Popup info -->
-<div id="popup" class="popup">
-  <div class="popup-content">
-    <span class="close" onclick="closePopup()">&times;</span>
-    <h2 id="popup-title"></h2>
-    <p id="popup-text"></p>
-  </div>
-</div>
-
-<style>
-  #eksplorasi {
-    margin-top: 20px;
-    padding: 30px;
-    background: linear-gradient(135deg, #f8bbd0, #a7c7e7);
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    animation: fadeIn 1s ease-in-out;
-  }
-
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-top: 25px;
-  }
-
-  .card {
-    background: #fff;
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: 0.4s;
-    cursor: pointer;
-    font-weight: bold;
-    color: #4a148c;
-  }
-
-  .card:hover {
-    transform: translateY(-5px) scale(1.05);
-    background: #f3e5f5;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-  }
-
-  .popup {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6);
-    animation: fadeIn 0.5s ease;
-  }
-
-  .popup-content {
-    background-color: white;
-    margin: 10% auto;
-    padding: 30px;
-    border-radius: 20px;
-    width: 85%;
-    max-width: 550px;
-    text-align: left;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    animation: slideUp 0.5s ease;
-  }
-
-  .popup-content h2 {
-    color: #4a148c;
-    margin-bottom: 15px;
-  }
-
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  .close:hover { color: #000; }
-
-  @keyframes slideUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-</style>
-
-<script>
-  const info = {
-    pahang: {
-      title: "Kesultanan Pahang",
-      text: `
-      🌸 <b>Asal usul:</b> Diasaskan oleh Sultan Muhammad Shah pada abad ke-15.<br><br>
-      ⚜️ <b>Sistem pemerintahan:</b> Berasaskan sistem feudal; Sultan dibantu oleh pembesar utama seperti Orang Kaya Indera Shahbandar dan Orang Kaya Indera Perba Jelai.<br><br>
-      📜 <b>Undang-undang:</b> Hukum Kanun Pahang diadaptasi daripada Hukum Kanun Melaka.<br><br>
-      🕌 <b>Ciri penting:</b> Pemerintahan menitikberatkan ajaran Islam dan adat istiadat Melayu.
-      `
-    },
-    perak: {
-      title: "Kesultanan Perak",
-      text: `
-      🌸 <b>Asal usul:</b> Diasaskan oleh Sultan Muzaffar Shah, putera Sultan Mahmud Shah dari Melaka.<br><br>
-      ⚜️ <b>Sistem pemerintahan:</b> Sultan dibantu pembesar negeri melalui sistem warisan Kesultanan Melaka.<br><br>
-      📜 <b>Undang-undang:</b> Undang-undang 99 Perak diperkenalkan semasa pemerintahan Sultan Iskandar Dzulkarnain.<br><br>
-      🕌 <b>Ciri penting:</b> Mengutamakan agama Islam, adat istiadat dan kedaulatan diraja.
-      `
-    },
-    terengganu: {
-      title: "Kesultanan Terengganu",
-      text: `
-      🌸 <b>Asal usul:</b> Ditubuhkan oleh Tun Zainal Abidin I pada tahun 1725.<br><br>
-      ⚜️ <b>Sistem pemerintahan:</b> Pemerintahan beraja yang berasaskan Islam dan adat Melayu.<br><br>
-      📜 <b>Undang-undang:</b> Dikenali sebagai Undang-undang Bagi Diri Kerajaan Terengganu yang digubal oleh Sultan Zainal Abidin III.<br><br>
-      🕌 <b>Ciri penting:</b> Menitikberatkan nilai keagamaan dan tradisi tempatan.
-      `
-    },
-    selangor: {
-      title: "Kesultanan Selangor",
-      text: `
-      🌸 <b>Asal usul:</b> Diasaskan oleh Raja Lumu yang kemudiannya bergelar Sultan Salehuddin Shah pada abad ke-18.<br><br>
-      ⚜️ <b>Sistem pemerintahan:</b> Sultan dibantu oleh pembesar negeri dan mengamalkan sistem warisan Melayu Melaka.<br><br>
-      📜 <b>Undang-undang:</b> Dipengaruhi oleh adat Melayu dan ajaran Islam.<br><br>
-      🕌 <b>Ciri penting:</b> Pemerintahan berteraskan Islam, menjaga keharmonian rakyat serta hubungan baik dengan kerajaan lain.
-      `
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #a7c7e7, #f8bbd0);
+      text-align: center;
+      padding: 30px;
+      animation: fadeIn 1s ease-in-out;
+      overflow-x: hidden;
     }
-  };
 
-  function showInfo(state) {
-    document.getElementById("popup-title").innerHTML = info[state].title;
-    document.getElementById("popup-text").innerHTML = info[state].text;
-    document.getElementById("popup").style.display = "block";
-  }
+    h1 {
+      color: #4a148c;
+      font-size: 2em;
+      margin-bottom: 20px;
+      animation: slideDown 1s ease;
+    }
 
-  function closePopup() {
-    document.getElementById("popup").style.display = "none";
-  }
-</script>
-<!-- 🌟 Bahagian 2: Kuiz Pintar Bab 7 - Kesultanan Melayu 🌟 -->
-<section id="kuiz-section" style="display:none; text-align:center; padding:40px;">
-  <h2 style="color:#4a148c; font-size:2em;">💎 Kuiz Pintar: Uji Pengetahuan Anda! 💎</h2>
-  <p id="score-display" style="font-size:1.2em; color:#6a1b9a; margin-bottom:20px;">Skor semasa: 0</p>
+    #score-display {
+      font-size: 1.2em;
+      color: #4a148c;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    @keyframes scorePop {
+      0% { transform: scale(1); color: #4a148c; }
+      50% { transform: scale(1.5); color: #ffeb3b; }
+      100% { transform: scale(1); color: #4a148c; }
+    }
+
+    .score-animate { animation: scorePop 0.6s ease; }
+
+    .question {
+      background: #ffffffcc;
+      border-radius: 25px;
+      padding: 25px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      margin: 20px auto;
+      width: 90%;
+      max-width: 550px;
+      animation: popIn 0.5s ease;
+      position: relative;
+    }
+
+    button {
+      margin: 10px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ff80ab;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover { transform: scale(1.07); }
+    .correct { background-color: green !important; }
+    .wrong { background-color: red !important; }
+
+    #result {
+      font-size: 1.4em;
+      color: #4a148c;
+      margin-top: 25px;
+      animation: fadeIn 1s ease;
+      text-align: left;
+    }
+
+    .restart-btn {
+      background-color: #64b5f6;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 25px;
+      font-size: 1em;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .restart-btn:hover {
+      background-color: #42a5f5;
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      top: 0;
+      left: 50%;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall 3s linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity:1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity:0; }
+    }
+
+    .hint {
+      font-size: 0.9em;
+      color: #6a1b9a;
+      background: #f3e5f5;
+      border-radius: 10px;
+      padding: 5px 10px;
+      display: inline-block;
+      margin-top: 10px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .feedback {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 10px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .feedback.correct { color: green; }
+    .feedback.wrong { color: red; }
+
+    /* Butang mula kuiz */
+    #start-btn {
+      background-color: #4a148c;
+      color: white;
+      padding: 15px 35px;
+      border-radius: 15px;
+      font-size: 1.2em;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 30px;
+    }
+
+    #start-btn:hover {
+      background-color: #6a1b9a;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>💖 Kuiz Bab 7: Kesultanan Melayu 💖</h1>
+  <p id="score-display">Skor semasa: 0</p>
+  <button id="start-btn" onclick="startQuiz()">Mula Kuiz 🚀</button>
   <div id="quiz-container"></div>
   <p id="result"></p>
 
-  <audio id="correctSound" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3"></audio>
-  <audio id="wrongSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
-  <audio id="cheerSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+  <!-- Bunyi latar -->
+  <audio id="clickSound" src="mixkit-sad-game-over-trombone-471.wav"></audio>
+  <audio id="correctSound" src="mixkit-correct-answer-tone-2870.wav"></audio>
+  <audio id="wrongSound" src="mixkit-wrong-answer-fail-notification-946.wav"></audio>
+  <audio id="cheerSound" src="mixkit-achievement-bell-600.wav"></audio>
+<script>
+  const quiz = [
+    { question: "1. Siapakah anak angkat Raja Patani?", answers: ["Raja Bahar", "Tun Telanai", "Raja Sakti", "Raja Lumu"], correct: 3, hint: "Tokoh yang menjadi Sultan Selangor pertama." },
+    { question: "2. Di manakah lokasi pusat pemerintahan awal Kesultanan Melayu?", answers: ["Melaka", "Pahang", "Perak", "Kuala Selangor"], correct: 0, hint: "Sebuah pelabuhan terkenal di Selat Melaka." },
+    { question: "3. Siapakah yang menggubal undang-undang bagi kerajaan Terengganu?", answers: ["Sultan Zainal Abidin III", "Sultan Omar", "Sultan Mansur", "Sultan Mahmud"], correct: 0, hint: "Baginda ialah sultan ketiga belas Terengganu." },
+    { question: "4. Siapakah putera Sultan Mahmud Shah yang ditabalkan menjadi Sultan Perak?", answers: ["Sultan Muzaffar Shah", "Sultan Alauddin", "Sultan Mansur", "Sultan Ahmad"], correct: 0, hint: "Nama baginda sama dengan sultan Melaka dahulu." },
+    { question: "5. Di manakah lokasi pusat pemerintahan awal bagi Kesultanan Perak?", answers: ["Kuala Kangsar", "Teluk Intan", "Lambor Kanan", "Pasir Salak"], correct: 2, hint: "Sebuah kawasan berhampiran Sungai Perak." },
+    { question: "6. Undang-undang yang diperkemaskan oleh Sultan Iskandar Dzulkarnain di Perak?", answers: ["Undang-undang 99 Perak", "Hukum Kanun Melaka", "Adat Temenggung", "Undang-undang Laut"], correct: 0, hint: "Mengandungi 99 fasal penting." },
+    { question: "7. Di manakah Raja Lumu mendapatkan pengiktirafan untuk menjadi Sultan Selangor?", answers: ["Riau", "Johor", "Langkat", "Perak"], correct: 0, hint: "Sebuah pusat Kesultanan Johor-Riau." },
+    { question: "8. Pusat pemerintahan pertama Sultan Salehuddin Shah?", answers: ["Kuala Selangor", "Klang", "Sabak Bernam", "Kuala Lumpur"], correct: 0, hint: "Terletak berhampiran muara sungai besar di Selangor." },
+    { question: "9. Siapakah ayahanda kepada Raja Lumu?", answers: ["Daeng Chelak", "Daeng Parani", "Daeng Merewah", "Daeng Kemboja"], correct: 0, hint: "Seorang pahlawan Bugis terkenal." },
+    { question: "10. Tengkolok Kesultanan Pahang digelar sebagai?", answers: ["Solek Balung Raja", "Solek Dendam Tak Sudah", "Solek Lang Menyusur Angin", "Solek Gading"], correct: 1, hint: "Nama tengkolok ini membawa maksud kesetiaan yang berterusan." },
+    { question: "11. Kesultanan Pahang mengamalkan sistem pemerintahan secara?", answers: ["Feudal", "Demokrasi", "Kesukuan", "Autokratik"], correct: 0, hint: "Sistem yang menekankan pembesar dan rakyat." },
+    { question: "12. Apakah gelaran bagi waris ganti Kesultanan Pahang?", answers: ["Tengku Mahkota", "Raja Muda", "Tengku Amir", "Putera Diraja"], correct: 0, hint: "Gelaran rasmi pewaris takhta negeri itu." },
+    { question: "13. Dalam Kesultanan Pahang, apakah badan yang memberi persetujuan atas pelantikan Sultan?", answers: ["Jumaah Pangkuan Diraja", "Majlis Raja-Raja", "Jemaah Menteri", "Majlis Pembesar Negeri"], correct: 0, hint: "Badan penasihat diraja tertinggi negeri." },
+    { question: "14. Berikut ialah nama 4 pembesar utama Kesultanan Pahang, KECUALI?", answers: ["Orang Kaya Indera Pahlawan", "Orang Kaya Indera Perba Jelai", "Orang Kaya Indera Shahbandar", "Orang Kaya Indera Bakti"], correct: 3, hint: "Nama itu tidak wujud dalam struktur asal." },
+    { question: "15. Dalam Kesultanan Perak, badan manakah berperanan memilih dan melantik Sultan?", answers: ["Dewan Negara", "Dewan Undangan Negeri", "Dewan Negara Perak", "Dewan Negara Melayu"], correct: 2, hint: "Namanya bermula dengan 'Dewan Negara' dan berkaitan negeri tersebut." },
+    { question: "16. Apakah nama lain bagi Jumaah Dewan Pangkuan Diraja Terengganu?", answers: ["Majlis Mesyuarat Negeri", "Majlis Diraja", "Majlis Istiadat Negeri", "Majlis Agama Islam"], correct: 1, hint: "Badan diraja yang menasihati sultan." },
+    { question: "17. Pemerintahan kerajaan negeri dijalankan bersama-sama?", answers: ["Sultan dan pembesar", "Sultan dan rakyat", "Sultan dan askar", "Sultan dan kerabat"], correct: 0, hint: "Sultan tidak memerintah bersendirian." },
+    { question: "18. Keris Taming Sari ialah alat kebesaran diraja?", answers: ["Melaka", "Johor", "Pahang", "Perak"], correct: 0, hint: "Negeri bersejarah di tepi Selat." },
+    { question: "19. Berikut ialah karya dalam persuratan semua negeri, KECUALI?", answers: ["Hikayat Hang Tuah", "Sulalatus Salatin", "Hikayat Raja Pasai", "Undang-undang 99 Perak"], correct: 3, hint: "Ia bukan karya sastera tetapi undang-undang." },
+    { question: "20. Undang-undang 99 Perak diguna semasa pemerintahan Sultan?", answers: ["Sultan Iskandar Dzulkarnain", "Sultan Mahmud", "Sultan Alauddin", "Sultan Ahmad"], correct: 0, hint: "Baginda sultan yang memperkemasnya." }
+  ];
 
-  <style>
-    .question {
-      background:#ffffffd9;
-      border-radius:20px;
-      box-shadow:0 5px 12px rgba(0,0,0,0.2);
-      padding:25px;
-      margin:25px auto;
-      width:90%;
-      max-width:550px;
-      animation:popIn 0.5s ease;
-    }
-    button {
-      margin:8px;
-      padding:12px 20px;
-      border:none;
-      border-radius:10px;
-      background-color:#ba68c8;
-      color:white;
-      cursor:pointer;
-      transition:0.3s;
-    }
-    button:hover {transform:scale(1.07);}
-    .correct {background-color:green!important;}
-    .wrong {background-color:red!important;}
-    .feedback {font-weight:bold;margin-top:10px;}
-    .feedback.correct {color:green;}
-    .feedback.wrong {color:red;}
-    @keyframes popIn {from{transform:scale(0.9);opacity:0;}to{transform:scale(1);opacity:1;}}
-    @keyframes confettiFall {0%{transform:translateY(0)rotate(0deg);opacity:1;}100%{transform:translateY(100vh)rotate(720deg);opacity:0;}}
-  </style>
+  let current = 0;
+  let score = 0;
+  let userAnswers = [];
 
-  <script>
-    const quiz = [
-      { question: "1. Siapakah pengasas Kesultanan Selangor?", answers: ["Raja Lumu", "Raja Sakti", "Tun Telanai", "Raja Bahar"], correct: 0 },
-      { question: "2. Di manakah pusat pemerintahan awal Kesultanan Perak?", answers: ["Kuala Kangsar", "Lambor Kanan", "Teluk Intan", "Pasir Salak"], correct: 1 },
-      { question: "3. Siapakah Sultan Pahang yang memperkenalkan Undang-undang 99 Perak?", answers: ["Sultan Iskandar Dzulkarnain", "Sultan Mahmud", "Sultan Mansur", "Sultan Alauddin"], correct: 0 },
-      { question: "4. Apakah nama badan yang memilih Sultan Terengganu?", answers: ["Jumaah Pangkuan Diraja", "Majlis Raja-Raja", "Majlis Negeri", "Majlis Agama"], correct: 0 },
-      { question: "5. Siapakah anak angkat Raja Patani yang terkenal?", answers: ["Raja Bahar", "Tun Telanai", "Che Siti Wan Kembang", "Raja Lumu"], correct: 2 }
-    ];
+  const quizContainer = document.getElementById("quiz-container");
+  const result = document.getElementById("result");
+  const scoreDisplay = document.getElementById("score-display");
+  const startBtn = document.getElementById("start-btn");
 
-    let current = 0, score = 0, userAnswers = [];
-    const quizContainer = document.getElementById("quiz-container");
-    const scoreDisplay = document.getElementById("score-display");
-    const result = document.getElementById("result");
+  function startQuiz() {
+    startBtn.style.display = "none";
+    scoreDisplay.style.display = "inline-block";
+    showQuestion();
+  }
 
-    function startKuiz(){
-      document.getElementById("kuiz-section").style.display = "block";
-      showQuestion();
-    }
+  function showQuestion() {
+    const q = quiz[current];
+    quizContainer.innerHTML = `
+      <div class="question">
+        <h3>${q.question}</h3>
+        ${q.answers.map((a, i) =>
+          `<button onclick="checkAnswer(this, ${i})">${a}</button>`
+        ).join("")}
+        <div>
+          <button onclick="showHint()">💡 Petunjuk</button>
+          <p id="hint" class="hint" style="display:none;">${q.hint}</p>
+        </div>
+        <p>Soalan ${current + 1} daripada ${quiz.length}</p>
+      </div>
+    `;
+    updateScore();
+  }
 
-    function showQuestion(){
-      const q = quiz[current];
-      quizContainer.innerHTML = `
-        <div class="question">
-          <h3>${q.question}</h3>
-          ${q.answers.map((a,i)=>`<button onclick="checkAnswer(this,${i})">${a}</button>`).join("")}
-          <p>Soalan ${current+1} daripada ${quiz.length}</p>
-        </div>`;
-    }
+  function showHint() {
+    const hint = document.getElementById("hint");
+    hint.style.display = "block";
+  }
 
-    function checkAnswer(btn, i){
-      const buttons = btn.parentElement.querySelectorAll("button");
-      userAnswers.push(i);
-      const feedback = document.createElement("div");
-      feedback.classList.add("feedback");
+  function updateScore() {
+    scoreDisplay.textContent = `Skor semasa: ${score}`;
+    scoreDisplay.classList.remove('score-animate');
+    void scoreDisplay.offsetWidth;
+    scoreDisplay.classList.add('score-animate');
+  }
 
-      if(i===quiz[current].correct){
-        score++;
-        btn.classList.add("correct");
-        document.getElementById("correctSound").play();
-        feedback.textContent = "✅ Betul! Hebat!";
-        feedback.classList.add("correct");
-      } else {
-        btn.classList.add("wrong");
-        buttons[quiz[current].correct].classList.add("correct");
-        document.getElementById("wrongSound").play();
-        feedback.textContent = "❌ Salah, cuba lagi!";
-        feedback.classList.add("wrong");
-      }
+  function checkAnswer(btn, i) {
+    const buttons = btn.parentElement.querySelectorAll("button");
+    userAnswers.push(i);
 
-      btn.parentElement.appendChild(feedback);
-      buttons.forEach(b=>b.disabled=true);
-      scoreDisplay.textContent = `Skor semasa: ${score}`;
-      
-      setTimeout(()=>{
-        current++;
-        if(current < quiz.length) showQuestion();
-        else endQuiz();
-      },3000);
-    }
+    const feedback = document.createElement("div");
+    feedback.classList.add("feedback");
 
-    function endQuiz(){
-      quizContainer.innerHTML = "";
-      document.getElementById("cheerSound").play();
-      showConfetti();
-      let review = `<h3>🎉 Markah akhir: ${score}/${quiz.length}</h3><hr><h4>Semakan Jawapan:</h4>`;
-      quiz.forEach((q,i)=>{
-        const icon = userAnswers[i]===q.correct ? "✅" : "❌";
-        review += `<p><b>${q.question}</b><br>Jawapan anda: ${q.answers[userAnswers[i]]||"—"} ${icon}<br>Jawapan betul: <b>${q.answers[q.correct]}</b></p><hr>`;
-      });
-      review += `<button onclick="restartQuiz()">Ulang Kuiz 🔁</button>`;
-      result.innerHTML = review;
-      scoreDisplay.textContent = `Skor akhir: ${score}`;
+    if (i === quiz[current].correct) {
+      score++;
+      btn.classList.add("correct");
+      document.getElementById("correctSound").play();
+      feedback.textContent = "✨ Hebat!";
+      feedback.classList.add("correct");
+    } else {
+      btn.classList.add("wrong");
+      buttons[quiz[current].correct].classList.add("correct");
+      document.getElementById("wrongSound").play();
+      feedback.textContent = "❌ Cuba lagi!";
+      feedback.classList.add("wrong");
     }
 
-    function restartQuiz(){
-      current=0; score=0; userAnswers=[];
-      result.innerHTML="";
-      showQuestion();
-    }
+    btn.parentElement.appendChild(feedback);
+    buttons.forEach(b => b.disabled = true);
+    updateScore();
 
-    function showConfetti(){
-      const colors=['#ff0a54','#ff477e','#ff7096','#f7cad0','#fae0e4'];
-      for(let i=0;i<100;i++){
-        const confetti=document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.position='fixed';
-        confetti.style.width='10px';
-        confetti.style.height='10px';
-        confetti.style.top='0';
-        confetti.style.left=Math.random()*100+'vw';
-        confetti.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
-        confetti.style.animation=`confettiFall ${(Math.random()*2+3)}s linear forwards`;
-        document.body.appendChild(confetti);
-        setTimeout(()=>confetti.remove(),3500);
-      }
+    // ⏱️ Delay 3 saat sebelum ke soalan seterusnya
+    setTimeout(() => {
+      current++;
+      if (current < quiz.length) showQuestion();
+      else endQuiz();
+    }, 3000);
+  }
+
+  function endQuiz() {
+    quizContainer.innerHTML = "";
+    document.getElementById("clickSound").play();
+    showConfetti();
+
+    let reviewHTML = `<h2>Markah anda: ${score}/${quiz.length}</h2><hr><h3>Semak Jawapan Anda:</h3>`;
+    quiz.forEach((q, index) => {
+      const userAnsIndex = userAnswers[index];
+      const userAnsText = q.answers[userAnsIndex];
+      const correctAnsText = q.answers[q.correct];
+      const icon = userAnsIndex === q.correct ? "✅" : "❌";
+      reviewHTML += `
+        <p><b>Soalan ${index + 1}:</b> ${q.question}<br>
+        Jawapan anda: <span>${userAnsText || "—"} ${icon}</span><br>
+        Jawapan betul: <b>${correctAnsText}</b></p><hr>`;
+    });
+
+    reviewHTML += `<button class="restart-btn" onclick="restartQuiz()">Ulang Kuiz 🔁</button>`;
+    result.innerHTML = reviewHTML;
+    scoreDisplay.textContent = `Skor akhir: ${score}`;
+  }
+
+  function restartQuiz() {
+    score = 0;
+    current = 0;
+    userAnswers = [];
+    result.innerHTML = "";
+    showQuestion();
+  }
+
+  function showConfetti() {
+    const colors = ['#ff0a54','#ff477e','#ff7096','#ff85a1','#fbb1b1','#f9bec7','#f7cad0','#fae0e4'];
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 3500);
     }
-  </script>
-</section>
+  }
+</script>
+</body>
+</html>
